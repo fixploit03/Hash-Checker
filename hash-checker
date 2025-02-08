@@ -1,5 +1,8 @@
 #!/bin/bash
 # Script Bash sederhana untuk mengecek nilai Hash pada sebuah File
+# Pembuat: Rofi (Fixploit03)
+
+# Fungsi untuk input Hash MD5
 function input_hash_md5(){
 	while true; do
 		read -p "[#] Masukkan Hash MD5: " hash_md5
@@ -17,6 +20,8 @@ function input_hash_md5(){
 	done
 }
 
+
+# Fungsi untuk input Hash SHA-1
 function input_hash_sha1(){
 	while true; do
 		read -p "[#] Masukkan Hash SHA-1: " hash_sha1
@@ -51,6 +56,8 @@ function input_hash_sha256(){
 	done
 }
 
+
+# Fungsi untuk input Hash SHA-256
 function input_hash_sha512(){
 	while true; do
 		read -p "[#] Masukkan Hash SHA-512: " hash_sha512
@@ -68,6 +75,8 @@ function input_hash_sha512(){
 	done
 }
 
+
+# Fungsi untuk input Hash SHA-512
 function input_file(){
 	while true; do
 		read -p "[#] Masukkan nama file yang mau dicek nilai Hashnya: " file
@@ -85,6 +94,8 @@ function input_file(){
 	done
 }
 
+
+# Fungsi untuk cek Hash MD5
 function cek_hash_md5(){
 	input_hash_md5
 	input_file
@@ -100,6 +111,7 @@ function cek_hash_md5(){
 	fi
 }
 
+# Fungsi untuk cek Hash SHA-1
 function cek_hash_sha1(){
 	input_hash_sha1
 	input_file
@@ -115,6 +127,7 @@ function cek_hash_sha1(){
 	fi
 }
 
+# Fungsi untuk cek Hash SHA-256
 function cek_hash_sha256(){
 	input_hash_sha256
 	input_file
@@ -130,6 +143,7 @@ function cek_hash_sha256(){
 	fi
 }
 
+# Fungsi untuk cek Hash SHA-512
 function cek_hash_sha512(){
 	input_hash_sha512
 	input_file
@@ -145,6 +159,7 @@ function cek_hash_sha512(){
 	fi
 }
 
+# Fungsi untuk cek semua Hash (MD5, SHA-1, SHA-256, SHA512)
 function cek_semua_hash(){
 	input_hash_md5
 	input_hash_sha1
@@ -152,7 +167,6 @@ function cek_semua_hash(){
 	input_hash_sha512
 	input_file
 
-   	# Menghitung semua hash file
 	hash_file_md5=$(md5sum "${file}" | awk '{print $1}')
   	hash_file_sha1=$(sha1sum "${file}" | awk '{print $1}')
 	hash_file_sha256=$(sha256sum "${file}" | awk '{print $1}')
@@ -197,15 +211,18 @@ function cek_semua_hash(){
 
 	if [[ "${#hash_sama[@]}" -eq 4 ]]; then
 		echo "[+] Semua Hash sama."
+  		exit 0
 	else
 		echo "[-] Ada Hash yang tidak sama."
 		echo ""
 		for hts in "${hash_tidak_sama[@]}"; do
 			echo "- ${hts}"
 		done
+  		exit 1
 	fi
 }
 
+# Fungsi main (utama)
 function main(){
 	cowsay "Welcome to Hash Checker"
 	echo ""
@@ -234,6 +251,9 @@ function main(){
 			cek_hash_sha512
 		elif [[ "${pilih_menu}" == "5" ]]; then
 			cek_semua_hash
+   		else
+     			echo "[-] Menu tidak tersedia."
+			continue
 		fi
 	done
 }
