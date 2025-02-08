@@ -1,3 +1,5 @@
+![](https://github.com/fixploit03/Hash-Checker/blob/main/cat.jpeg)
+
 ## Nilai Hash file: cat.jpeg
 
 - **MD5**: 72e8e9c283fdc03dd95b31c48baab8c4
