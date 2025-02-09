@@ -1,6 +1,14 @@
 #!/bin/bash
+#-------------------------------------------------------------------------
 # Script Bash sederhana untuk mengecek nilai Hash pada sebuah File
 # Pembuat: Rofi (Fixploit03)
+#
+# Hash merupakan alat yang sangat berguna dalam menjaga integritas file, 
+# memastikan bahwa data tetap utuh dan tidak mengalami perubahan yang 
+# tidak diinginkan. Dengan memverifikasi hash, kita dapat mendeteksi
+# manipulasi atau kerusakan file, sehingga keaslian dan keamanannya 
+# tetap terjaga.
+#-------------------------------------------------------------------------
 
 trap 'echo -e "\n[-] KeyboardInterrupt"; exit 1' SIGINT
 
