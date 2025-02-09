@@ -41,6 +41,7 @@ function input_hash_sha1(){
 	done
 }
 
+# Fungsi untuk input Hash SHA-256
 function input_hash_sha256(){
 	while true; do
 		read -p "[#] Masukkan Hash SHA-256: " hash_sha256
@@ -59,7 +60,7 @@ function input_hash_sha256(){
 }
 
 
-# Fungsi untuk input Hash SHA-256
+# Fungsi untuk input Hash SHA-512
 function input_hash_sha512(){
 	while true; do
 		read -p "[#] Masukkan Hash SHA-512: " hash_sha512
@@ -78,10 +79,10 @@ function input_hash_sha512(){
 }
 
 
-# Fungsi untuk input Hash SHA-512
+# Fungsi untuk input file yang mau dicek nilai Hashnya
 function input_file(){
 	while true; do
-		read -p "[#] Masukkan nama file yang mau dicek nilai Hashnya: " file
+		read -e -p "[#] Masukkan nama file yang mau dicek nilai Hashnya: " file
 		if [[ -z "${file}" ]]; then
 			echo "[-] Nama file tidak boleh kosong."
 			continue
