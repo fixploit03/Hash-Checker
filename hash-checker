@@ -2,6 +2,8 @@
 # Script Bash sederhana untuk mengecek nilai Hash pada sebuah File
 # Pembuat: Rofi (Fixploit03)
 
+trap 'echo -e "\n[-] KeyboardInterrupt"; exit 1' SIGINT
+
 # Fungsi untuk input Hash MD5
 function input_hash_md5(){
 	while true; do
