@@ -1,6 +1,6 @@
 #!/bin/bash
 #-------------------------------------------------------------------------
-# Script Bash sederhana untuk mengecek nilai Hash pada sebuah File
+# Script Bash sederhana untuk mengecek nilai Hash pada sebuah File.
 # Pembuat: Rofi (Fixploit03)
 #
 # Hash merupakan alat yang sangat berguna dalam menjaga integritas file, 
