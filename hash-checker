@@ -10,20 +10,33 @@
 # tetap terjaga.
 #-------------------------------------------------------------------------
 
-trap 'echo -e "\n[-] KeyboardInterrupt"; exit 1' SIGINT
+# Variabel warna
+m="\e[0;31m" # Merah
+h="\e[0;32m" # Hijau
+k="\e[0;33m" # Kuning
+b="\e[0;34m" # Biru
+p="\e[0;37m" # Putih
+r="\e[0m"    # Reset
+
+ib=$'\e[0;34m' # Input read Biru
+ip=$'\e[0;37m' # Input read Putih
+ir=$'\e[0m'    # Input reset
+
+
+trap 'echo -e "\n${p}[${m}-${p}] KeyboardInterrupt${r}"; exit 1' SIGINT
 
 # Fungsi untuk input Hash MD5
 function input_hash_md5(){
 	while true; do
-		read -p "[#] Masukkan Hash MD5: " hash_md5
+		read -p "${ip}[${ib}#${ip}] Masukkan Hash MD5: " hash_md5
 		if [[ -z "${hash_md5}" ]]; then
-			echo "[-] Hash MD5 tidak boleh kosong."
+			echo -e "${p}[${m}-${p}] Hash MD5 tidak boleh kosong.${r}"
 			continue
 		else
 			if [[ "${hash_md5}" =~ ^[a-fA-F0-9]{32}$ ]]; then
 				break
 			else
-				echo "[-] Hash MD5 tidak valid."
+				echo -e "${p}[${m}-${p}] Hash MD5 tidak valid.${r}"
 				continue
 			fi
 		fi
@@ -34,15 +47,15 @@ function input_hash_md5(){
 # Fungsi untuk input Hash SHA-1
 function input_hash_sha1(){
 	while true; do
-		read -p "[#] Masukkan Hash SHA-1: " hash_sha1
+		read -p "${ip}[${ib}#${ip}] Masukkan Hash SHA-1: " hash_sha1
 		if [[ -z "${hash_sha1}" ]]; then
-			echo "[-] Hash SHA-1 tidak boleh kosong."
+			echo -e "${p}[${m}-${p}] Hash SHA-1 tidak boleh kosong.${r}"
 			continue
 		else
 			if [[ "${hash_sha1}" =~ ^[a-fA-F0-9]{40}$ ]]; then
 				break
 			else
-				echo "[-] Hash SHA-1 tidak valid."
+				echo -e "${p}[${m}-${p}] Hash SHA-1 tidak valid.${r}"
 				continue
 			fi
 		fi
@@ -52,15 +65,15 @@ function input_hash_sha1(){
 # Fungsi untuk input Hash SHA-256
 function input_hash_sha256(){
 	while true; do
-		read -p "[#] Masukkan Hash SHA-256: " hash_sha256
+		read -p "${ip}[${ib}#${ip}] Masukkan Hash SHA-256: " hash_sha256
 		if [[ -z "${hash_sha256}" ]]; then
-			echo "[-] Hash SHA-256 tidak boleh kosong."
+			echo -e "${p}[${m}-${p}] Hash SHA-256 tidak boleh kosong.${r}"
 			continue
 		else
 			if [[ "${hash_sha256}" =~ ^[a-fA-F0-9]{64}$ ]]; then
 				break
 			else
-				echo "[-] Hash SHA-256 tidak valid."
+				echo -e "${p}[${m}-${p}] Hash SHA-256 tidak valid.${r}"
 				continue
 			fi
 		fi
@@ -71,15 +84,15 @@ function input_hash_sha256(){
 # Fungsi untuk input Hash SHA-512
 function input_hash_sha512(){
 	while true; do
-		read -p "[#] Masukkan Hash SHA-512: " hash_sha512
+		read -p "${ip}[${ib}#${ip}] Masukkan Hash SHA-512: " hash_sha512
 		if [[ -z "${hash_sha512}" ]]; then
-			echo "[-] Hash SHA-512 tidak boleh kosong."
+			echo -e "${p}[${m}-${p}] Hash SHA-512 tidak boleh kosong.${r}"
 			continue
 		else
 			if [[ "${hash_sha512}" =~ ^[a-fA-F0-9]{128}$ ]]; then
 				break
 			else
-				echo "[-] Hash SHA-512 tidak valid."
+				echo -e "${p}[${m}-${p}] Hash SHA-512 tidak valid.${r}"
 				continue
 			fi
 		fi
@@ -90,15 +103,15 @@ function input_hash_sha512(){
 # Fungsi untuk input file yang mau dicek nilai Hashnya
 function input_file(){
 	while true; do
-		read -e -p "[#] Masukkan nama file yang mau dicek nilai Hashnya: " file
+		read -e -p "${ip}[${ib}#${ip}] Masukkan nama file yang mau dicek nilai Hashnya: " file
 		if [[ -z "${file}" ]]; then
-			echo "[-] Nama file tidak boleh kosong."
+			echo -e "${p}[${m}-${p}] Nama file tidak boleh kosong.${r}"
 			continue
 		else
 			if [[ -f "${file}" ]]; then
 				break
 			else
-				echo "[-] File '${file}' tidak ditemukan."
+				echo -e "${p}[${m}-${p}] File '${file}' tidak ditemukan.${r}"
 				continue
 			fi
 		fi
@@ -111,13 +124,15 @@ function cek_hash_md5(){
 	input_hash_md5
 	input_file
 
+	echo -e "${p}[${b}*${p}] Mengecek Hash MD5...${r}"
+
 	hash_file=$(md5sum "${file}" | awk '{print $1}')
 
 	if [[ "${hash_md5}" == "${hash_file}" ]]; then
-		echo "[+] Hash MD5 sama."
+		echo -e "${p}[${h}+${p}] Hash MD5 sama.${r}"
 		exit 0
 	else
-		echo "[-] Hash MD5 tidak sama."
+		echo -e "${p}[${m}-${p}] Hash MD5 tidak sama.${r}"
 		exit 1
 	fi
 }
@@ -127,13 +142,15 @@ function cek_hash_sha1(){
 	input_hash_sha1
 	input_file
 
+	echo -e "${p}[${b}*${p}] Mengecek Hash SHA-1...${r}"
+
 	hash_file=$(sha1sum "${file}" | awk '{print $1}')
 
 	if [[ "${hash_sha1}" == "${hash_file}" ]]; then
-		echo "[+] Hash SHA-1 sama."
+		echo -e "${p}[${h}+${p}] Hash SHA-1 sama.${r}"
 		exit 0
 	else
-		echo "[-] Hash Sha-1 tidak sama."
+		echo -e "${p}[${m}-${p}] Hash Sha-1 tidak sama.${r}"
 		exit 1
 	fi
 }
@@ -143,13 +160,15 @@ function cek_hash_sha256(){
 	input_hash_sha256
 	input_file
 
+	echo -e "${p}[${b}*${p}] Mengecek Hash SHA-256...${r}"
+
 	hash_file=$(sha256sum "${file}" | awk '{print $1}')
 
 	if [[ "${hash_sha256}" == "${hash_file}" ]]; then
-		echo "[+] Hash SHA-256 sama."
+		echo -e "${p}[${h}+${p}] Hash SHA-256 sama.${r}"
 		exit 0
 	else
-		echo "[-] Hash Sha-256 tidak sama."
+		echo -e "${p}[${m}-${p}] Hash Sha-256 tidak sama.${r}"
 		exit 1
 	fi
 }
@@ -159,13 +178,15 @@ function cek_hash_sha512(){
 	input_hash_sha512
 	input_file
 
+	echo -e "${p}[${b}*${p}] Mengecek Hash SHA-512...${r}"
+
 	hash_file=$(sha512sum "${file}" | awk '{print $1}')
 
 	if [[ "${hash_sha512}" == "${hash_file}" ]]; then
-		echo "[+] Hash SHA-512 sama."
+		echo -e "${p}[${h}+${p}] Hash SHA-512 sama.${r}"
 		exit 0
 	else
-		echo "[-] Hash Sha-512 tidak sama."
+		echo -e "${p}[${m}-${p}] Hash Sha-512 tidak sama.${r}"
 		exit 1
 	fi
 }
@@ -186,48 +207,48 @@ function cek_semua_hash(){
 	hash_sama=()
 	hash_tidak_sama=()
 
-	echo "[*] Mengecek semua Hash..."
+	echo -e "${p}[${b}*${p}] Mengecek semua Hash...${r}"
 
 	if [[ "${hash_md5}" == "${hash_file_md5}" ]]; then
-	 	echo "[+] Hash MD5 sama."
+	 	echo -e "${p}[${h}+${p}] Hash MD5 sama.${r}"
 		hash_sama+=("MD5")
 	else
-	        echo "[-] Hash MD5 tidak sama."
+	        echo -e "${p}[${m}-${p}] Hash MD5 tidak sama.${r}"
 		hash_tidak_sama+=("MD5")
 	fi
 
 	if [[ "${hash_sha1}" == "${hash_file_sha1}" ]]; then
-	        echo "[+] Hash SHA-1 sama."
+	        echo -e "${p}[${h}+${p}] Hash SHA-1 sama.${r}"
 		hash_sama+=("SHA-1")
 	else
-	        echo "[-] Hash SHA-1 tidak sama."
+	        echo -e "${p}[${m}-${p}] Hash SHA-1 tidak sama.${r}"
 		hash_tidak_sama+=("SHA-1")
 	fi
 
 	if [[ "${hash_sha256}" == "${hash_file_sha256}" ]]; then
-	        echo "[+] Hash SHA-256 sama."
+	        echo -e "${p}[${h}+${p}] Hash SHA-256 sama.${r}"
 		hash_sama+=("SHA-256")
 	else
-	        echo "[-] Hash SHA-256 tidak sama."
+	        echo -e "${p}[${m}-${p}] Hash SHA-256 tidak sama.${r}"
 		hash_tidak_sama+=("SHA-256")
 	fi
 
 	if [[ "${hash_sha512}" == "${hash_file_sha512}" ]]; then
-	        echo "[+] Hash SHA-512 sama."
+	        echo -e "${p}[${h}+${p}] Hash SHA-512 sama.${r}"
 		hash_sama+=("SHA-512")
 	else
-	        echo "[-] Hash SHA-512 tidak sama."
+	        echo -e "${p}[${m}-${p}] Hash SHA-512 tidak sama.${r}"
 		hash_tidak_sama+=("SHA-512")
 	fi
 
 	if [[ "${#hash_sama[@]}" -eq 4 ]]; then
-		echo "[+] Semua Hash sama."
+		echo -e "${p}[${h}+${p}] Semua Hash sama.${r}"
   		exit 0
 	else
-		echo "[-] Ada Hash yang tidak sama."
+		echo -e "${p}[${m}-${p}] Ada Hash yang tidak sama.${r}"
 		echo ""
 		for hts in "${hash_tidak_sama[@]}"; do
-			echo "- ${hts}"
+			echo -e "${p}- ${m}${hts}${r}"
 		done
   		exit 1
 	fi
@@ -235,22 +256,27 @@ function cek_semua_hash(){
 
 # Fungsi main (utama)
 function main(){
-	cowsay "Welcome to Hash Checker"
+	message="${h}Welcome to Hash Checker\nDibuat oleh${p}: ${h}Rofi ${p}[${h}Fixploit03${p}]${r}"
 	echo ""
-	echo "Script Bash sederhana untuk mengecek nilai Hash"
-	echo "pada sebuah File"
+	echo -e "${message}"
 	echo ""
-	echo "Daftar Menu:"
+	echo -e "${p}+-------------------------------------------------+${r}"
+	echo -e "${p}| ${b}Script Bash sederhana untuk mengecek nilai Hash ${p}|${r}"
+	echo -e "${p}| ${b}pada sebuah File                                ${p}|${r}"
+	echo -e "${p}+-------------------------------------------------+${r}"
 	echo ""
-	echo "[1] Cek Hash MD5"
-	echo "[2] Cek Hash SHA-1"
-	echo "[3] Cek Hash SHA-256"
-	echo "[4] Cek Hash SHA-512"
-	echo "[5] Cek Semua Hash (MD5, SHA-1, SHA-256, SHA-512)"
+	echo -e "${k}Daftar Menu${p}:${r}"
+	echo ""
+	echo -e "${p}[${k}1${p}] Cek Hash MD5${r}"
+	echo -e "${p}[${k}2${p}] Cek Hash SHA-1${r}"
+	echo -e "${p}[${k}3${p}] Cek Hash SHA-256${r}"
+	echo -e "${p}[${k}4${p}] Cek Hash SHA-512${r}"
+	echo -e "${p}[${k}5${p}] Cek Semua Hash (${k}MD5${p}, ${k}SHA-1${p}, ${k}SHA-256${p}, ${k}SHA-512${p})${r}"
+	echo -e "${p}[${k}6${p}] Keluar${r}"
 	echo ""
 
 	while true; do
-		read -p "[#] Pilih Menu: " pilih_menu
+		read -p "${ip}[${ib}#${ip}] Pilih Menu: " pilih_menu
 
 		if [[ "${pilih_menu}" == "1" ]]; then
 			cek_hash_md5
@@ -263,7 +289,7 @@ function main(){
 		elif [[ "${pilih_menu}" == "5" ]]; then
 			cek_semua_hash
    		else
-     			echo "[-] Menu tidak tersedia."
+     			echo -e "${p}[${m}-${p}] Menu tidak tersedia.${r}"
 			continue
 		fi
 	done
